@@ -40,7 +40,6 @@ void generatePlaces(std::vector<Place> &places)
             break;
         case 'E':
             places[i].adjacentPlaces.push_back(places[3]); // D
-            places[i].adjacentPlaces.push_back(places[4]); // E
             places[i].adjacentPlaces.push_back(places[5]); // F
             places[i].adjacentPlaces.push_back(places[6]); // G
             break;
@@ -85,6 +84,15 @@ void generatePlaces(std::vector<Place> &places)
         //     }
         // }
         // std::cout << std::endl;
+
+        // TODO: calculate euclidian distance for every adjacentPlace
+    }
+    for (int i = 0; i < NUMBER_OF_PLACES; i++)
+    {
+        for (int j = 0; j < places[i].adjacentPlaces.size(); j++)
+        {
+            places[i].adjacentPlaces[j].distanceFromOriginPlace = euclideanDistance(places[i], places[i].adjacentPlaces[j]);
+        }
     }
 }
 
@@ -94,7 +102,7 @@ void printPlaces(const std::vector<Place> &places)
 
     std::cout
         << "----------------------------------------------" << std::endl;
-    std::cout << std::setw(5) << "Name" << std::setw(10) << "X" << std::setw(10) << "Y" << std::setw(20) << "Adjacent places" << std::endl;
+    std::cout << std::setw(5) << "Name" << std::setw(10) << "X" << std::setw(10) << "Y" << std::setw(20) << "Adjacent places" << std::setw(25) << "Distance from origin" << std::endl;
 
     for (const Place &place : places)
     {
@@ -105,9 +113,12 @@ void printPlaces(const std::vector<Place> &places)
             for (const Place &adjacent : place.adjacentPlaces)
                 std::cout << adjacent.name << " ";
         }
-        else
-        {
-            std::cout << "";
+
+       
+
+        for (int i = 0; i < place.adjacentPlaces.size(); i++){
+
+        std::cout << std::setw(20) << place.adjacentPlaces[i].distanceFromOriginPlace;
         }
 
         std::cout << std::endl;

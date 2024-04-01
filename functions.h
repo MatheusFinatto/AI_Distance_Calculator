@@ -16,6 +16,7 @@ struct Place
     char name;
     int x;
     int y;
+    int distanceFromOriginPlace;
     std::vector<Place> adjacentPlaces;
 };
 
