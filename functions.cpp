@@ -56,36 +56,6 @@ void generatePlaces(std::vector<Place> &places)
         default:
             break;
         }
-
-        // Random
-        // int numAdjacent = rand() % 4 + 1;
-        // std::vector<int> chosenIndices;
-        // for (int j = 0; j < numAdjacent; j++)
-        // {
-        //     int randomIndex;
-        //     do
-        //     {
-        //         randomIndex = rand() % NUMBER_OF_PLACES;
-        //     } while (randomIndex == i || std::find(chosenIndices.begin(), chosenIndices.end(), randomIndex) != chosenIndices.end());
-        //     // Ensure not selecting the same place or previously chosen place
-
-        //     chosenIndices.push_back(randomIndex);                    // Mark this index as chosen
-        //     places[i].adjacentPlaces.push_back(places[randomIndex]); // Add the adjacent place to the current place's adjacentPlaces vector
-        // }
-
-        // Print adjacent places
-        // std::cout << "Adjacent places of " << places[i].name << " are: ";
-        // for (int j = 0; j < places[i].adjacentPlaces.size(); j++)
-        // {
-        //     std::cout << places[i].adjacentPlaces[j].name;
-        //     if (j != places[i].adjacentPlaces.size() - 1)
-        //     {
-        //         std::cout << ", ";
-        //     }
-        // }
-        // std::cout << std::endl;
-
-        // TODO: calculate euclidian distance for every adjacentPlace
     }
     for (int i = 0; i < NUMBER_OF_PLACES; i++)
     {
@@ -114,11 +84,10 @@ void printPlaces(const std::vector<Place> &places)
                 std::cout << adjacent.name << " ";
         }
 
-       
+        for (int i = 0; i < place.adjacentPlaces.size(); i++)
+        {
 
-        for (int i = 0; i < place.adjacentPlaces.size(); i++){
-
-        std::cout << std::setw(20) << place.adjacentPlaces[i].distanceFromOriginPlace;
+            std::cout << std::setw(20) << place.adjacentPlaces[i].distanceFromOriginPlace;
         }
 
         std::cout << std::endl;
@@ -169,12 +138,26 @@ void getInputs(char &firstPlaceName, char &lastPlaceName)
     lastPlaceName = toupper(lastPlaceName);
 }
 
-float shortestPath(char firstPlaceName, char lastPlaceName)
+void printEuclidianDistanceFromOriginToGoal(char firstPlaceName, char lastPlaceName, std::vector<Place> &places, int firstIndex, int lastIndex)
 {
-    return 10.0;
+    std::cout << std::endl
+              << "Euclidean distance between places " << firstPlaceName << " and " << lastPlaceName
+              << " is: " << std::endl
+              << euclideanDistance(places[firstIndex], places[lastIndex]) << std::endl
+              << std::endl;
 }
 
-std::vector<char> generatePathNodes(const std::vector<Place> &places, int firstIndex, int lastIndex)
+void pathPrinter(char firstPlaceName, char lastPlaceName, std::vector<Place> &path)
 {
-    return std::vector<char>({'A', 'B', 'C', 'D', 'E', 'F', 'G'});
+    std::cout << "Path from " << firstPlaceName << " to " << lastPlaceName << " is: " << std::endl;
+    for (int i = 0; i < path.size(); i++)
+    {
+        std::cout << path[i].name;
+        if (i != path.size() - 1)
+        {
+            std::cout << " -> ";
+        }
+    }
+    std::cout << std::endl
+              << std::endl;
 }

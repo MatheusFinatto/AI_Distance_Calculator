@@ -1,5 +1,7 @@
 #include <iostream>
+#include <algorithm>
 #include "functions.h"
+#include "AStar.h"
 
 int main()
 {
@@ -17,33 +19,23 @@ int main()
         getInputs(firstPlaceName, lastPlaceName);
 
         if (isInputValid(firstPlaceName, lastPlaceName))
-
         {
             int firstIndex = firstPlaceName - FIRST_PLACE;
             int lastIndex = lastPlaceName - FIRST_PLACE;
 
-            std::cout << std::endl
-                      << "Euclidean distance between places " << firstPlaceName << " and " << lastPlaceName
-                      << " is: " << std::endl
-                      << euclideanDistance(places[firstIndex], places[lastIndex]) << std::endl
-                      << std::endl;
+            printEuclidianDistanceFromOriginToGoal(firstPlaceName, lastPlaceName, places, firstIndex, lastIndex);
 
-            std::vector<char> path = generatePathNodes(places, firstIndex, lastIndex);
+            // Use shortestPath to find the total distance of the shortest path
+            float distance = shortestPath(firstPlaceName, lastPlaceName, places);
 
-            std::cout << "Shortest path distance from " << firstPlaceName << " to " << lastPlaceName << " is: " << shortestPath(firstPlaceName, lastPlaceName) << std::endl;
+            // Print the total distance
+            std::cout << "Shortest path distance from " << firstPlaceName << " to " << lastPlaceName << " is: " << distance << std::endl;
 
-            ;
-            std::cout << "Path from " << firstPlaceName << " to " << lastPlaceName << " is: ";
-            for (int i = 0; i < path.size(); i++)
-            {
-                std::cout << path[i];
-                if (i != path.size() - 1)
-                {
-                    std::cout << " -> ";
-                }
-            }
-            std::cout << std::endl
-                      << std::endl;
+            // Use AStar algorithm to find the shortest path
+            std::vector<Place> path = AStar(places, firstPlaceName, lastPlaceName);
+
+            // Print the path
+            pathPrinter(firstPlaceName, lastPlaceName, path);
         }
 
     } while (shouldContinue(finished));
